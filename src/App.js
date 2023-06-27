@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import './App.css';
+import ProductDetail from './components/ProductDetail';
+import products from './data/products';
+import { setProducts } from './redux/product';
+import { BsFillCartFill } from 'react-icons/bs'
+import cart from './redux/cart';
 
 function App() {
+
+  const { productList } = useSelector(state => state.product)
+  const { cartCount  } = useSelector(state => state.cart)
+
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+
+    dispatch(setProducts(products))
+
+
+
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App-header">
+
+      <div>
+      <BsFillCartFill />
+      {cartCount}
+
+      </div>
+
+
+      {
+        productList.map((product) => { return (<ProductDetail key={product.id} product={product} />) })
+      }
+
+
+
+
+
     </div>
   );
 }
